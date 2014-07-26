@@ -70,7 +70,6 @@
     };
 
     var makeGallery = function(content) {
-        console.log(content);
         if (content.data && content.data.length) {
             var html = content.data.map(makeItem);
             gallery.innerHTML += html.join('');

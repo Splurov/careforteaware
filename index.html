@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Care for Tea Ware</title>
+
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+
+        a img {
+            border: 0;
+        }
+
+        .gallery {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+            .gallery li {
+                float: left;
+                width: 50%;
+            }
+                .gallery img {
+                    width: 100%;
+                    display: block;
+                }
+    </style>
+</head>
+
+<body>
+
+<ul class="gallery">
+
+</ul>
+
+<script>
+    var gallery = document.querySelector('.gallery');
+
+    var makeItem = function(media) {
+        var html = ['<li>'];
+        html.push('<a href="' + media.link + '">')
+        html.push('<img src="' + media.images.standard_resolution.url + '"/>');
+        html.push('</a>');
+        html.push('</li>');
+        return html.join('');
+    };
+
+    var makeGallery = function(content) {
+        console.log(content);
+        if (content.data && content.data.length) {
+            var html = content.data.map(makeItem);
+            gallery.innerHTML = html.join('');
+        }
+    };
+</script>
+<script src="https://api.instagram.com/v1/tags/careforteaware/media/recent?count=30&client_id=8cdf8f5cc6e04cb5ac57632b3c8a64f4&callback=makeGallery"></script>
+
+</body>
+
+</html>

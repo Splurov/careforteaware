@@ -21,8 +21,27 @@
         }
             .gallery li {
                 float: left;
-                width: 50%;
+                width: 100%;
             }
+
+            @media (min-width: 640px) {
+                .gallery li {
+                    width: 50%;
+                }
+            }
+
+            @media (min-width: 960px) {
+                .gallery li {
+                    width: 33.33%;
+                }
+            }
+
+            @media (min-width: 1280px) {
+                .gallery li {
+                    width: 25%;
+                }
+            }
+
                 .gallery img {
                     width: 100%;
                     display: block;
@@ -37,7 +56,9 @@
 </ul>
 
 <script>
+    var head = document.getElementsByTagName('head')[0];
     var gallery = document.querySelector('.gallery');
+    var loadedCount = 0;
 
     var makeItem = function(media) {
         var html = ['<li>'];
@@ -52,11 +73,27 @@
         console.log(content);
         if (content.data && content.data.length) {
             var html = content.data.map(makeItem);
-            gallery.innerHTML = html.join('');
+            gallery.innerHTML += html.join('');
+
+            loadedCount += content.data.length;
+
+            if (loadedCount < 90 && content.pagination.next_url) {
+                loadMedia(content.pagination.next_url);
+            }
         }
     };
+
+    var loadMedia = function(url) {
+        var script = document.createElement('script');
+        script.src = url;
+        head.appendChild(script);
+    };
+
+    loadMedia('https://api.instagram.com/v1/tags/careforteaware/media/recent' +
+              '?count=30' +
+              '&client_id=8cdf8f5cc6e04cb5ac57632b3c8a64f4' +
+              '&callback=makeGallery');
 </script>
-<script src="https://api.instagram.com/v1/tags/careforteaware/media/recent?count=30&client_id=8cdf8f5cc6e04cb5ac57632b3c8a64f4&callback=makeGallery"></script>
 
 
 <script>
